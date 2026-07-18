@@ -1,0 +1,34 @@
+{
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        },
+        "editor.rulers": [
+            100
+        ]
+    },
+    "black-formatter.args": ["--line-length", "100"],
+    "isort.args": ["--profile", "black", "--line-length", "100"],
+    "editor.semanticTokenColorCustomizations": {
+        "rules": {
+            // @property가 붙은 'def width' 선언부의 색상 (예: 노란색/금색)
+            "property.declaration": {
+                "foreground": "#4FC1FF",
+                // "fontStyle": "bold"
+            },
+            // 'self._width' 같은 일반 멤버 변수/프로퍼티 참조 색상 (예: 하늘색)
+            "property": {
+                //"foreground": "#E06C75"
+                "foreground": "#4FC1FF"
+            },
+            // __init__ 등에서 처음 선언(정의)되는 프라이빗 멤버 변수의 색상 (예: 연한 초록색)
+            "property.declaration:private": {
+                "foreground": "#A8FFB2",
+                "fontStyle": "bold"
+            }
+        }
+    }
+}
