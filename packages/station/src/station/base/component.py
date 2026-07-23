@@ -22,12 +22,12 @@ class SComponent:
     def get_world_name() -> str:
         return "world"
 
-    def __init__(self, name: str, type: ComponentType, parent: "SComponent" | None):
-        if type != ComponentType.WORLD and parent is None:
+    def __init__(self, name: str, component_type: ComponentType, parent: "SComponent" | None):
+        if component_type != ComponentType.WORLD and parent is None:
             raise ValueError("Non-world components must have a parent.")
 
         self._name = name
-        self._type = type
+        self._type = component_type
         self._parent_to_base: TMatrix3 = TMatrix3.identity()
 
         self._parent: SComponent | None = parent
@@ -47,7 +47,7 @@ class SComponent:
     def get_parent_to_base(self) -> TMatrix3:
         return self._parent_to_base
 
-    def set_parent_to_base(self, value: TMatrix3):
+    def set_parent_to_base(self, value: TMatrix3) -> None:
         self._parent_to_base = value
 
     def get_world_to_base(self) -> TMatrix3:
@@ -56,7 +56,7 @@ class SComponent:
         else:
             return self._parent.get_world_to_base() @ self._parent_to_base
 
-    def set_world_to_base(self, world_to_base: TMatrix3):
+    def set_world_to_base(self, world_to_base: TMatrix3) -> None:
         if self._parent is None:
             self._parent_to_base = world_to_base
         else:
@@ -66,6 +66,6 @@ class SComponent:
     def get_parent(self) -> "SComponent" | None:
         return self._parent
 
-    def set_parent(self, value: "SComponent"):
+    def set_parent(self, value: "SComponent") -> None:
         self._parent = value
         self.set_world_to_base(self.get_world_to_base())

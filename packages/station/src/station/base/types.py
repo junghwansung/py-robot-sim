@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 from enum import Enum
 from typing import NamedTuple, NewType
 
@@ -27,9 +26,10 @@ class RobotErr(int, Enum):
 
 
 class RobotType(int, Enum):
-    SERIAL_6DOF = 0
-    SERIAL_6DOF_COUNTER_BALANCER = 1
-    SERIAL_6DOF_4_BAR_LINKAGE = 2
+    UNKNOWN = 0
+    SERIAL_6DOF = 1
+    SERIAL_6DOF_COUNTER_BALANCER = 2
+    SERIAL_6DOF_4_BAR_LINKAGE = 3
 
 
 class RobotVendor(int, Enum):
@@ -62,7 +62,7 @@ class BlendMotion:
     def is_blend(self) -> bool:
         return self.blend
 
-    def set_blend(self, is_blend: bool):
+    def set_blend(self, is_blend: bool) -> None:
         self.blend = is_blend
         if not is_blend:
             self.intensity.set_value(-1)
@@ -72,7 +72,7 @@ class BlendMotion:
             return -1
         return self.intensity.value
 
-    def set_intensity(self, value: int):
+    def set_intensity(self, value: int) -> None:
         self.intensity.set_value(value)
 
     def __repr__(self) -> str:

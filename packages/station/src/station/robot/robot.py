@@ -1,11 +1,12 @@
 import math
 
-from station.base.component import ComponentType, SComponent
-from station.base.types import RobotType, RobotVendor
 from zmath.range import Range
 from zmath.transform_matrix import TMatrix3
 from zmath.types import Axis
 from zutil.result import Err, Ok, Result
+
+from station.base.component import ComponentType, SComponent
+from station.base.types import RobotType, RobotVendor
 
 from .kinematics.dh_param import DHLink, DHParam
 from .kinematics.joint import Joint
@@ -34,7 +35,7 @@ def _get_robot_type_and_vendor(name: str) -> tuple[RobotType, RobotVendor]:
         return RobotType.UNKNOWN, RobotVendor.UNKNOWN
 
 
-def _get_dh_param_from_model(name: str) -> DHParam:
+def _get_dh_param_from_model(model_name: str) -> DHParam:
     # Placeholder — real implementation loads from robot database
     return DHParam([DHLink(0.0, 0.0, 0.0, 0.0)] * 6)
 

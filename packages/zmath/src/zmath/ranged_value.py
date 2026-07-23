@@ -1,11 +1,7 @@
-from typing import TypeVar
-
 from .range import Range
 
-T = TypeVar("T")
 
-
-class RangedValue[T]:
+class RangedValue[T: (int, float)]:
     """
     RangedValue class representing a single value constrained to a Range
 
@@ -21,14 +17,14 @@ class RangedValue[T]:
     _range: Range[T]
     _value: T
 
-    def __init__(self, range: Range[T], value: T):
-        if not isinstance(range, Range[T]):
-            raise TypeError("range must be a Range")
-        if not isinstance(value, T):
-            raise TypeError("value must be a T number")
+    def __init__(self, bound: Range[T], value: T):
+        if not isinstance(bound, Range):
+            raise TypeError("bound must be a Range")
+        if not isinstance(value, (int, float)):
+            raise TypeError("value must be an int or float")
 
-        object.__setattr__(self, "_range", range)
-        object.__setattr__(self, "_value", range.clamp(value))
+        object.__setattr__(self, "_range", bound)
+        object.__setattr__(self, "_value", bound.clamp(value))
 
     def __setattr__(self, name: str, value: object) -> None:
         if name in {"range", "value", "_range", "_value"}:
@@ -36,10 +32,9 @@ class RangedValue[T]:
         object.__setattr__(self, name, value)
 
     @classmethod
-    def from_range(cls, range: Range[T]) -> "RangedValue[T]":
+    def from_range(cls, bound: Range[T]) -> "RangedValue[T]":
         """create a RangedValue with the given range and value set to the range's midpoint"""
-        midpoint = (range.min + range.max) / 2.0
-        return cls(range, midpoint)
+        return cls(bound, bound.midpoint())
 
     @property
     def range(self) -> Range[T]:
@@ -53,18 +48,18 @@ class RangedValue[T]:
 
     def set_value(self, value: T) -> None:
         """update value in-place, clamped to the current range"""
-        if not isinstance(value, T):
-            raise TypeError("value must be a T number")
+        if not isinstance(value, (int, float)):
+            raise TypeError("value must be an int or float")
 
         object.__setattr__(self, "_value", self._range.clamp(value))
 
-    def set_range(self, range: Range[T]) -> None:
+    def set_range(self, bound: Range[T]) -> None:
         """update range in-place; current value is re-clamped to the new range"""
-        if not isinstance(range, Range[T]):
-            raise TypeError("range must be a Range")
+        if not isinstance(bound, Range):
+            raise TypeError("bound must be a Range")
 
-        self._range.set_range(range.min, range.max)
-        object.__setattr__(self, "_value", range.clamp(self._value))
+        self._range.set_range(bound.min, bound.max)
+        object.__setattr__(self, "_value", bound.clamp(self._value))
 
     def copy(self) -> "RangedValue[T]":
         return RangedValue[T](self._range, self._value)

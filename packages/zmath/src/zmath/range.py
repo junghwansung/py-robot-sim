@@ -1,9 +1,4 @@
-from typing import TypeVar
-
-T = TypeVar("T")
-
-
-class Range[T]:
+class Range[T: (int, float)]:
     """
     Range class representing a numerical interval
 
@@ -20,13 +15,13 @@ class Range[T]:
     _max: T
 
     def __init__(self, _min: T, _max: T):
-        if not all(isinstance(v, T) for v in (_min, _max)):
-            raise TypeError("min and max must be T numbers")
+        if not all(isinstance(v, (int, float)) for v in (_min, _max)):
+            raise TypeError("min and max must be int or float")
         if _min > _max:
             raise ValueError(f"min ({_min}) must be <= max ({_max})")
 
-        object.__setattr__(self, "_min", T(_min))
-        object.__setattr__(self, "_max", T(_max))
+        object.__setattr__(self, "_min", _min)
+        object.__setattr__(self, "_max", _max)
 
     def __setattr__(self, name: str, value: object) -> None:
         if name in {"min", "max", "_min", "_max"}:
@@ -45,12 +40,12 @@ class Range[T]:
 
     def set_range(self, _min: T, _max: T) -> None:
         """update range bounds in-place"""
-        if not all(isinstance(v, T) for v in (_min, _max)):
-            raise TypeError("min and max must be T numbers")
+        if not all(isinstance(v, (int, float)) for v in (_min, _max)):
+            raise TypeError("min and max must be int or float")
         if _min > _max:
             raise ValueError(f"min ({_min}) must be <= max ({_max})")
-        object.__setattr__(self, "_min", T(_min))
-        object.__setattr__(self, "_max", T(_max))
+        object.__setattr__(self, "_min", _min)
+        object.__setattr__(self, "_max", _max)
 
     def span(self) -> T:
         """return the length of the range (max - min)"""
@@ -62,18 +57,25 @@ class Range[T]:
 
     def clamp(self, value: T) -> T:
         """return value clamped to [min, max]"""
-        return max(self._min, min(self._max, T(value)))
+        return max(self._min, min(self._max, value))
 
     def lerp(self, t: T) -> T:
         """return interpolated value at t (t=0 -> min, t=1 -> max)"""
         return self._min + (self._max - self._min) * t
 
-    def normalize(self, value: T) -> T:
+    def normalize(self, value: T) -> float:
         """return t such that lerp(t) == value; inverse of lerp"""
         s = self.span()
         if s == 0.0:
             raise ValueError("Cannot normalize value in a zero-span range")
-        return (T(value) - self._min) / s
+        return (value - self._min) / s
+
+    def midpoint(self) -> T:
+        """return the midpoint of the range"""
+        if isinstance(self._min, int) and isinstance(self._max, int):
+            return (self._min + self._max) // 2
+
+        return (self._min + self._max) / 2
 
     def copy(self) -> "Range[T]":
         """return a copy of this range"""
@@ -81,15 +83,9 @@ class Range[T]:
 
     def __contains__(self, value: object) -> bool:
         """value in range -> bool (inclusive bounds)"""
-        if not isinstance(value, T):
+        if not isinstance(value, (int, float)):
             return False
-        return self._min <= T(value) <= self._max
-
-    def __eq__(self, other: object) -> bool:
-        """Range == Range -> bool"""
-        if not isinstance(other, Range[T]):
-            return NotImplemented
-        return self._min == other._min and self._max == other._max
+        return self._min <= value <= self._max
 
     def __repr__(self) -> str:
         return f"Range({self._min}, {self._max})"

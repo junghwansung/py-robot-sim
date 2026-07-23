@@ -4,10 +4,19 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "station",
+    "zmath",
+    "zutil",
+]
+
+[tool.uv.sources]
+station = { workspace = true }
+zmath = { workspace = true }
+zutil = { workspace = true }
 
 [tool.uv.workspace]
-members = ["packages/zmath", "packages/zkinematics", "packages/zutil"]
+members = ["packages/zmath", "packages/station", "packages/zutil"]
 
 [dependency-groups]
 dev = [
