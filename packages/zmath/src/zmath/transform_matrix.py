@@ -32,7 +32,7 @@ class TMatrix3:
             inv_tm = tm.inverse()
     """
 
-    __slots__ = ("_rotation", "_position")
+    __slots__ = ("_position", "_rotation")
     _rotation: R
     _position: Vector3
 
@@ -60,35 +60,43 @@ class TMatrix3:
 
     @classmethod
     def from_euler_xyz(
-        cls, rx: float, ry: float, rz: float, position: Vector3 = Vector3()
+        cls, rx: float, ry: float, rz: float, position: Vector3 | None = None
     ) -> "TMatrix3":
         """create a TMatrix3 from translation (x, y, z) and euler angles (rx, ry, rz in radians)"""
+        if position is None:
+            position = Vector3.zero()
         rot = R.from_euler("xyz", [rx, ry, rz])
         return cls(rot, position)
 
     @classmethod
     def from_euler_zyx(
-        cls, rz: float, ry: float, rx: float, position: Vector3 = Vector3()
+        cls, rz: float, ry: float, rx: float, position: Vector3 | None = None
     ) -> "TMatrix3":
         """create a TMatrix3 from translation (x, y, z) and euler angles (rz, ry, rx in radians)"""
+        if position is None:
+            position = Vector3.zero()
         rot = R.from_euler("zyx", [rz, ry, rx])
         return cls(rot, position)
 
     @classmethod
     def from_euler_zyz(
-        cls, rz1: float, ry: float, rz2: float, position: Vector3 = Vector3()
+        cls, rz1: float, ry: float, rz2: float, position: Vector3 | None = None
     ) -> "TMatrix3":
         """create a TMatrix3 from translation (x, y, z) and euler angles (rz1, ry, rz2 in radians)"""
+        if position is None:
+            position = Vector3.zero()
         rot = R.from_euler("zyz", [rz1, ry, rz2])
         return cls(rot, position)
 
     @classmethod
     def from_quaternion(
-        cls, q: list[float] | np.ndarray, position: Vector3 = Vector3()
+        cls, q: list[float] | np.ndarray, position: Vector3 | None = None
     ) -> "TMatrix3":
         """
         create a TMatrix3 from translation (x, y, z) and quaternion (qx, qy, qz, qw)
         """
+        if position is None:
+            position = Vector3.zero()
         rot = R.from_quat(q)
         return cls(rot, position)
 
@@ -274,7 +282,7 @@ class TMatrix2:
         - position: 2D translation vector
     """
 
-    __slots__ = ("_rotation", "_position")
+    __slots__ = ("_position", "_rotation")
     _rotation: float
     _position: Vector2
 

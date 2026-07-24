@@ -4,6 +4,7 @@
 
 import math
 from numbers import Real
+from typing import Self
 
 import numpy as np
 
@@ -158,7 +159,7 @@ class Vector2:
         """Vector2 - Vector2 -> Vector2"""
         return type(self).from_xy(self.x - other.x, self.y - other.y)
 
-    def __isub__(self, other: "Vector2") -> "Vector2":
+    def __isub__(self, other: "Vector2") -> Self:
         """Vector2 -= Vector2 -> Vector2"""
         self.set_xy(self.x - other.x, self.y - other.y)
         return self
@@ -167,7 +168,7 @@ class Vector2:
         """Vector2 + Vector2 -> Vector2"""
         return type(self).from_xy(self.x + other.x, self.y + other.y)
 
-    def __iadd__(self, other: "Vector2") -> "Vector2":
+    def __iadd__(self, other: "Vector2") -> Self:
         """Vector2 += Vector2 -> Vector2"""
         self.set_xy(self.x + other.x, self.y + other.y)
         return self
@@ -182,7 +183,7 @@ class Vector2:
         """scalar * Vector2 -> Vector2"""
         return self.__mul__(scalar)
 
-    def __imul__(self, scalar: float) -> "Vector2":
+    def __imul__(self, scalar: float) -> Self:
         """Vector2 *= scalar -> Vector2"""
         if not isinstance(scalar, Real):
             return NotImplemented
@@ -197,7 +198,7 @@ class Vector2:
             raise ValueError("Cannot divide by zero")
         return type(self).from_xy(self.x / scalar, self.y / scalar)
 
-    def __itruediv__(self, scalar: float) -> "Vector2":
+    def __itruediv__(self, scalar: float) -> Self:
         """Vector2 /= scalar -> Vector2"""
         if not isinstance(scalar, Real):
             return NotImplemented
@@ -388,7 +389,7 @@ class Vector3:
         """Vector3 - Vector3 -> Vector3"""
         return type(self).from_xyz(self.x - other.x, self.y - other.y, self.z - other.z)
 
-    def __isub__(self, other: "Vector3") -> "Vector3":
+    def __isub__(self, other: "Vector3") -> Self:
         """Vector3 -= Vector3 -> Vector3"""
         self.set_xyz(self.x - other.x, self.y - other.y, self.z - other.z)
         return self
@@ -397,7 +398,7 @@ class Vector3:
         """Vector3 + Vector3 -> Vector3"""
         return type(self).from_xyz(self.x + other.x, self.y + other.y, self.z + other.z)
 
-    def __iadd__(self, other: "Vector3") -> "Vector3":
+    def __iadd__(self, other: "Vector3") -> Self:
         """Vector3 += Vector3 -> Vector3"""
         self.set_xyz(self.x + other.x, self.y + other.y, self.z + other.z)
         return self
@@ -412,7 +413,7 @@ class Vector3:
         """scalar * Vector3 -> Vector3"""
         return self.__mul__(scalar)
 
-    def __imul__(self, scalar: float) -> "Vector3":
+    def __imul__(self, scalar: float) -> Self:
         """Vector3 *= scalar -> Vector3"""
         if not isinstance(scalar, Real):
             return NotImplemented
@@ -427,7 +428,7 @@ class Vector3:
             raise ValueError("Cannot divide by zero")
         return type(self).from_xyz(self.x / scalar, self.y / scalar, self.z / scalar)
 
-    def __itruediv__(self, scalar: float) -> "Vector3":
+    def __itruediv__(self, scalar: float) -> Self:
         """Vector3 /= scalar -> Vector3"""
         if not isinstance(scalar, Real):
             return NotImplemented

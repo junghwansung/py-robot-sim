@@ -8,9 +8,9 @@ from .vector import Vector2, Vector3
 class Box2:
     """immutable 2D box defined by width and height"""
 
-    def __init__(self, width: float, height: float, center: Vector2 = Vector2.zero()):
+    def __init__(self, width: float, height: float, center: Vector2 | None = None):
         self._size: Size2 = Size2(width, height)
-        self._center: Vector2 = center
+        self._center: Vector2 = center if center is not None else Vector2.zero()
 
     @classmethod
     def from_corners(cls, corners: list[Vector2]) -> "Box2":

@@ -10,7 +10,7 @@ class Range[T: (int, float)]:
         - for range-related operations like containment checks, clamping, etc.
     """
 
-    __slots__ = ("_min", "_max")
+    __slots__ = ("_max", "_min")
     _min: T
     _max: T
 

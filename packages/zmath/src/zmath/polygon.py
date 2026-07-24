@@ -1,12 +1,9 @@
 from collections.abc import Iterator
-from typing import Generic, TypeVar
 
 from .vector import Vector2, Vector3
 
-V = TypeVar("V", Vector2, Vector3)
 
-
-class Polygon(Generic[V]):
+class Polygon[V: (Vector2, Vector3)]:
     def __init__(self, vertices: list[V]):
         assert 3 <= len(vertices), "A polygon must have at least 3 vertices."
         if len(vertices) < 3:

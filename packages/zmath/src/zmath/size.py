@@ -13,7 +13,7 @@ class Size2:
         - for size-related operations like scaling, area calculation, etc.
     """
 
-    __slots__ = ("_width", "_height")
+    __slots__ = ("_height", "_width")
     _width: float
     _height: float
 
@@ -92,7 +92,7 @@ class Size3:
         - for size-related operations like scaling, volume calculation, etc.
     """
 
-    __slots__ = ("_width", "_height", "_depth")
+    __slots__ = ("_depth", "_height", "_width")
     _width: float
     _height: float
     _depth: float
